@@ -1,9 +1,10 @@
-import Image from "next/image";
+
+import AdminLogin from "./AdminLogin/page";
 
 export default function Home() {
   return (
     <div>
-      
+      <AdminLogin/>
     </div>
   );
 }
