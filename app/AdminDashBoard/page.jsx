@@ -73,7 +73,7 @@ export default function AdminDashBoard() {
 
   return (
     <div>
-      <div className="bg-purple-800 h-[50px] mt-2 ml-1 mr-1 shadow-md flex items-center justify-center text-2xl font-bold">
+      <div className="bg-purple-800 h-[50px] mt-2 ml-1 mr-1 w-[1350px] shadow-md flex items-center justify-center text-2xl font-bold">
         <label className="text-white">
           Welcome to Mega Cabs Serivce Admin Panel
         </label>
