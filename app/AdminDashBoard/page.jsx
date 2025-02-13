@@ -17,8 +17,13 @@ export default function AdminDashBoard() {
 
   const [subButtonStateVehicleAdd, setSubButtonStateVehicleAdd] =
     useState(false);
+  const [subButtonStateVehicleDetails, setSubButtonStateVehicleDetails] =
+    useState(false);
 
-  const subFunctionList = [setSubButtonStateVehicleAdd];
+  const subFunctionList = [
+    setSubButtonStateVehicleAdd,
+    setSubButtonStateVehicleDetails,
+  ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
     for (let subButton of subFunctionList) {
@@ -119,7 +124,10 @@ export default function AdminDashBoard() {
             {buttonStateManageVehicle && (
               <div
                 onClick={() =>
-                  handleSubButtonClick(setSubButtonStateVehicleAdd, "/AddNewVehicle")
+                  handleSubButtonClick(
+                    setSubButtonStateVehicleAdd,
+                    "/AddNewVehicle"
+                  )
                 }
                 className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Add new Vehicle</label>
@@ -127,7 +135,14 @@ export default function AdminDashBoard() {
             )}
 
             {buttonStateManageVehicle && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div
+                onClick={() =>
+                  handleSubButtonClick(
+                    setSubButtonStateVehicleDetails,
+                    "/VehicleDetails"
+                  )
+                }
+                className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Vehicle Details</label>
               </div>
             )}
