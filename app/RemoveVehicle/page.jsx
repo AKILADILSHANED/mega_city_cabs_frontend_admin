@@ -6,6 +6,7 @@ export default function page() {
   const [error, setError] = useState("");
   const [vehicleNumberState, setVehicleState] = useState("");
   const [vehicleDetailsState, setVehicleDetailsState] = useState(false);
+  const [updateMessage, setUpdateMessage] = useState("");
 
   const [vehicleId, setVehicleId] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
@@ -16,6 +17,7 @@ export default function page() {
 
   const handleSearch = async (e) => {
     setError("");
+    setUpdateMessage("");
     setVehicleDetailsState(false);
     if (!vehicleNumberState) {
       setError("Vehicle number is required!");
@@ -28,9 +30,9 @@ export default function page() {
       )}`;
       const request = await fetch(url, { method: "GET" });
       if (request.ok) {
-        const responseText = await request.text()
-        if(responseText){
-          const response = await JSON.parse(responseText)
+        const responseText = await request.text();
+        if (responseText) {
+          const response = await JSON.parse(responseText);
           setVehicleId(`${response.vehicleId}`);
           setVehicleNumber(`${response.vehicleNumber}`);
           setVehicleModel(`${response.vehicleModel}`);
@@ -38,15 +40,34 @@ export default function page() {
           setVehicleRegisterDate(`${response.registeredDate}`);
           setVehicleRegisterBy(`${response.admin.firstName}`);
           setVehicleDetailsState(true);
-        }else{
-          setError("No vehicle details found for provided Vehicle ID!")
+        } else {
+          setError("No vehicle details found for provided Vehicle ID!");
         }
       } else {
         alert("No response!");
       }
     } catch (error) {
-      alert(error);
       setError("An error occurred while getting the vehicle details!");
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      const request = await fetch(
+        `http://localhost:8080/api/v1/vehicle/vehicle-delete?vehicleId=${encodeURIComponent(vehicleId)}`,
+        {
+          method: "POST"          
+        }
+      );
+      if (request.ok) {
+        const response = request.text();
+        setUpdateMessage(response);
+      } else {
+        setUpdateMessage("No response. Please contact administrator!");
+      }
+    } catch (error) {
+      setUpdateMessage(error);
     }
   };
 
@@ -55,7 +76,7 @@ export default function page() {
       <div className="flex-col items-center justify-center">
         <div className=" bg-rose-700 text-white min-w-screen h-[35px] flex items-center justify-center hover:bg-rose-600 shadow-md">
           <label className="text-white text-xl font-serif">
-            Vehicle Details
+            Remove Vehicle Details
           </label>
         </div>
 
@@ -97,7 +118,7 @@ export default function page() {
                 </div>
               </div>
 
-              <div className="mt-6 bg-white h-[150px] shadow-md hover:shadow-lg flex flex-col">
+              <div className="mt-6 bg-white h-[190px] shadow-md hover:shadow-lg flex flex-col">
                 <div className="flex flex-row">
                   <div className="flex flex-row ml-[44px]">
                     <div>
@@ -123,8 +144,8 @@ export default function page() {
                       <input
                         className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
                         type="text"
-                        readOnly
                         value={vehicleNumber}
+                        onChange={(e) => setVehicleNumber(e.target.value)}
                       />
                     </div>
                   </div>
@@ -141,7 +162,7 @@ export default function page() {
                       <input
                         className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
                         type="text"
-                        readOnly
+                        onChange={(e) => setVehicleModel(e.target.value)}
                         value={vehicleModel}
                       />
                     </div>
@@ -157,7 +178,7 @@ export default function page() {
                       <input
                         className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
                         type="text"
-                        readOnly
+                        onChange={(e) => setVehicleType(e.target.value)}
                         value={vehicleType}
                       />
                     </div>
@@ -196,6 +217,19 @@ export default function page() {
                       />
                     </div>
                   </div>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <input
+                    className="mt-4 h-[30px] w-[200px] bg-red-400 text-white font-serif rounded-md shadow-md hover:bg-red-600"
+                    type="submit"
+                    value="Delete"
+                    onClick={handleDelete}
+                  />
+                  {updateMessage && (
+                    <div className="text-red-600 mt-2">
+                      <label>{updateMessage}</label>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -10,19 +10,20 @@ export default function AdminDashBoard() {
 
   const [buttonStateRegister, setButtonStateRegister] = useState(false);
   const [buttonStateBooking, setButtonStateBooking] = useState(false);
-  const [buttonStateManageVehicle, setButtonStateManageVehicle] =
-    useState(false);
+  const [buttonStateManageVehicle, setButtonStateManageVehicle] = useState(false);
   const [buttonStateManageDriver, setButtonStateManageDriver] = useState(false);
   const [buttonStateReceipt, setButtonStateReceipts] = useState(false);
 
-  const [subButtonStateVehicleAdd, setSubButtonStateVehicleAdd] =
-    useState(false);
-  const [subButtonStateVehicleDetails, setSubButtonStateVehicleDetails] =
-    useState(false);
+  const [subButtonStateVehicleAdd, setSubButtonStateVehicleAdd] = useState(false);
+  const [subButtonStateVehicleDetails, setSubButtonStateVehicleDetails] = useState(false);
+  const [subButtonStateVehicleUpdate, setSubButtonStateVehicleUpdate] = useState(false);
+  const [subButtonStateVehicleDelete, setSubButtonStateVehicleDelete] = useState(false);
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
     setSubButtonStateVehicleDetails,
+    setSubButtonStateVehicleUpdate,
+    setSubButtonStateVehicleDelete
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -148,13 +149,27 @@ export default function AdminDashBoard() {
             )}
 
             {buttonStateManageVehicle && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div
+                onClick={() =>
+                  handleSubButtonClick(
+                    setSubButtonStateVehicleUpdate,
+                    "/UpdateVehicle"
+                  )
+                }
+                className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Update Vehicle Details</label>
               </div>
             )}
 
             {buttonStateManageVehicle && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div 
+              onClick={()=>
+                handleSubButtonClick(
+                  setSubButtonStateVehicleDelete,
+                  "/RemoveVehicle"
+                )
+              }
+              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Remove Vehicle</label>
               </div>
             )}

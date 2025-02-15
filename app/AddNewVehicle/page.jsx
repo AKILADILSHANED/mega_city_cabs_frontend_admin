@@ -21,8 +21,7 @@ export default function AddVehicle() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    e.preventDefault()
     if (vehicleNumnerState.trim() === "") {
       newErrorState.vehicleNumber = true;
     }
@@ -59,10 +58,10 @@ export default function AddVehicle() {
         const response = await request.text();
         setResponseState(response);
       } else {
-        alert(request.text);
+        setResponseState(request.text);
       }
     } catch (error) {
-      alert(error);
+      setResponseState(error);
     }
   };
 
