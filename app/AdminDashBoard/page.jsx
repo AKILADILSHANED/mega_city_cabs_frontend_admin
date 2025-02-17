@@ -2,6 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Fahkwang } from "next/font/google";
 
 export default function AdminDashBoard() {
   const router = useRouter();
@@ -18,12 +19,14 @@ export default function AdminDashBoard() {
   const [subButtonStateVehicleDetails, setSubButtonStateVehicleDetails] = useState(false);
   const [subButtonStateVehicleUpdate, setSubButtonStateVehicleUpdate] = useState(false);
   const [subButtonStateVehicleDelete, setSubButtonStateVehicleDelete] = useState(false);
+  const [subButtonStateDriverAdd, setButtonStateDriverAdd] = useState(false)
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
     setSubButtonStateVehicleDetails,
     setSubButtonStateVehicleUpdate,
-    setSubButtonStateVehicleDelete
+    setSubButtonStateVehicleDelete,
+    setButtonStateDriverAdd
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -182,7 +185,11 @@ export default function AdminDashBoard() {
               <label className="ml-2">Manage Drivers</label>
             </div>
             {buttonStateManageDriver && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div 
+              onClick={()=>handleSubButtonClick(setButtonStateDriverAdd,
+                "/AddDriver"
+              )}
+              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Add Driver Details</label>
               </div>
             )}
