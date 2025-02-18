@@ -20,13 +20,17 @@ export default function AdminDashBoard() {
   const [subButtonStateVehicleUpdate, setSubButtonStateVehicleUpdate] = useState(false);
   const [subButtonStateVehicleDelete, setSubButtonStateVehicleDelete] = useState(false);
   const [subButtonStateDriverAdd, setButtonStateDriverAdd] = useState(false)
+  const [subButtonStateDriverInquiry, setButtonStateDriverInquiry] = useState(false)
+  const [subButtonStateDriverUpdate, setButtonStateDriverUpdate] = useState(false)
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
     setSubButtonStateVehicleDetails,
     setSubButtonStateVehicleUpdate,
     setSubButtonStateVehicleDelete,
-    setButtonStateDriverAdd
+    setButtonStateDriverAdd,
+    setButtonStateDriverInquiry,
+    setButtonStateDriverUpdate
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -194,12 +198,20 @@ export default function AdminDashBoard() {
               </div>
             )}
             {buttonStateManageDriver && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div
+              onClick={()=>handleSubButtonClick(setButtonStateDriverInquiry,
+                "/DriverInquiry"
+              )}
+              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Driver Inquiry</label>
               </div>
             )}
             {buttonStateManageDriver && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div 
+              onClick={()=>handleSubButtonClick(setButtonStateDriverUpdate,
+                "/DriverUpdate"
+              )}
+              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Update Driver Details</label>
               </div>
             )}
