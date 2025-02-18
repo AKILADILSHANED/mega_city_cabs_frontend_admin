@@ -104,7 +104,7 @@ export default function page() {
               </div>
             </div>
 
-            <div className="mt-6 bg-white h-[150px] shadow-md hover:shadow-lg flex flex-col items-center justify-center">
+            <div className="mt-6 bg-white h-[150px] shadow-md hover:shadow-lg">
               <div className="flex flex-row">
                 <div className="flex flex-row ml-[43px]">
                   <div>
