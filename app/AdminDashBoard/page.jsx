@@ -22,6 +22,7 @@ export default function AdminDashBoard() {
   const [subButtonStateDriverAdd, setButtonStateDriverAdd] = useState(false)
   const [subButtonStateDriverInquiry, setButtonStateDriverInquiry] = useState(false)
   const [subButtonStateDriverUpdate, setButtonStateDriverUpdate] = useState(false)
+  const [subButtonStateDriverDelete, setButtonStateDriverDelete] = useState(false)
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
@@ -30,7 +31,8 @@ export default function AdminDashBoard() {
     setSubButtonStateVehicleDelete,
     setButtonStateDriverAdd,
     setButtonStateDriverInquiry,
-    setButtonStateDriverUpdate
+    setButtonStateDriverUpdate,
+    setButtonStateDriverDelete
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -216,7 +218,11 @@ export default function AdminDashBoard() {
               </div>
             )}
             {buttonStateManageDriver && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div 
+              onClick={()=>{handleSubButtonClick(setButtonStateDriverDelete,
+                "/RemoveDriver"
+              )}}
+              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Remove Driver</label>
               </div>
             )}
