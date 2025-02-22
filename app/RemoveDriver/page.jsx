@@ -218,8 +218,8 @@ export default function DriverRemove() {
                       <input
                         className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
                         type="text"
-                        readOnly 
-                        value={registeredDateText}                       
+                        readOnly
+                        value={registeredDateText}
                       />
                     </div>
                   </div>
