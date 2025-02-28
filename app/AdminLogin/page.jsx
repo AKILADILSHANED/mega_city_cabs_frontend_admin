@@ -20,6 +20,7 @@ export default function AdminLogin() {
     try {
       const request = await fetch(url, {
         method: "POST",
+        credentials:"include"
       });
 
       if (request.ok) {
