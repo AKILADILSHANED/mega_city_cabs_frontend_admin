@@ -2,7 +2,6 @@
 import React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Fahkwang } from "next/font/google";
 
 export default function AdminDashBoard() {
   const router = useRouter();
@@ -33,6 +32,8 @@ export default function AdminDashBoard() {
     useState(false);
   const [subButtonStateConfirmRequest, setButtonStateConfirmRequest] =
     useState(false);
+  const [subButtonStateConfirmBooking, setButtonStateConfirmBooking] =
+    useState(false);
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
@@ -44,6 +45,7 @@ export default function AdminDashBoard() {
     setButtonStateDriverUpdate,
     setButtonStateDriverDelete,
     setButtonStateConfirmRequest,
+    setButtonStateConfirmBooking,
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -136,8 +138,16 @@ export default function AdminDashBoard() {
               className=" border h-[35px] w-[260px] flex items-center justify-start hover:bg-blue-500 hover:text-white">
               <label className="ml-2">Manage Bookings</label>
             </div>
+
             {buttonStateBooking && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div
+                onClick={() =>
+                  handleSubButtonClick(
+                    setButtonStateConfirmBooking,
+                    "/ConfirmBooking"
+                  )
+                }
+                className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Confirm Bookings</label>
               </div>
             )}
