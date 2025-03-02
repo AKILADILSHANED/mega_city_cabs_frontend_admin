@@ -1,14 +1,27 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function BookingAssignment() {
   const searchParam = useSearchParams();
   const bookingId = searchParam.get("bookingId");
-  const [assignDriver, setAssignDriver] = useState(false);
-  const [assignVehicle, setAssignVehicle] = useState(false);
+  const bookingDate = searchParam.get("bookingDate");
+  const bookingType = searchParam.get("bookingType");
+  const pickupLocation = searchParam.get("pickupLocation");
+  const destination = searchParam.get("destination");
+  const vehicleNumber = searchParam.get("vehicleNumber");
+  const firstName = searchParam.get("firstName");
+  const first_Name = searchParam.get("first_name");
+  const last_name = searchParam.get("last_name");
+  const contact = searchParam.get("contact");
+
+  const [driverList, setDriverList] = useState([]);
+  const [vehicleList, setVehicleList] = useState([]);
   const [assignDriverWindow, setAssignDriverWindow] = useState(false);
   const [assignVehicleWindow, setAssignVehicleWindow] = useState(false);
+  const [selectedDriver, setSecelctedDriver] = useState("");
+  const [selectedVehicle, setSecelctedVehicle] = useState("");
+  const [message, setMessage] = useState(false);
 
   const router = useRouter();
 
@@ -18,12 +31,84 @@ export default function BookingAssignment() {
 
   const handleAssignDriver = () => {
     setAssignVehicleWindow(false);
+    setMessage(false);
     setAssignDriverWindow(true);
   };
 
   const handleAssignVehicle = () => {
     setAssignDriverWindow(false);
     setAssignVehicleWindow(true);
+    setMessage(false);
+  };
+
+  useEffect(() => {
+    const getDriverData = async () => {
+      const requestDriverData = await fetch(
+        "http://localhost:8080/api/v1/driver/get-driver-data",
+        {
+          method: "GET",
+        }
+      );
+      if (requestDriverData.ok) {
+        const response = await requestDriverData.json();
+        setDriverList(response);
+      } else {
+        alert("No response from server. Please contact administrator!");
+      }
+    };
+    getDriverData();
+  }, []);
+
+  useEffect(() => {
+    const getVehicleData = async () => {
+      const request = await fetch(
+        "http://localhost:8080/api/v1/vehicle/vehicle-data-assign",
+        {
+          method: "GET",
+        }
+      );
+      if (request.ok) {
+        const response =await request.json();
+        setVehicleList(response);
+      } else {
+        alert("No response from server. Please contact administrator!");
+      }
+    };
+    getVehicleData();
+  }, []);
+
+  const handleAssignedVehicle = async () => {
+    const request = await fetch(
+      `http://localhost:8080/api/v1/vehicle/assign-vehicle?vehicleId=${encodeURIComponent(selectedVehicle)}&bookingId=${encodeURIComponent(bookingId)}`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+    if (request.ok) {
+      const response = await request.text();
+      setMessage(response);
+    } else {
+      setMessage("Error in response!");
+    }
+  };
+
+  const handleAssignedDriver = async () => {
+    const request = await fetch(
+      `http://localhost:8080/api/v1/driver/assign-driver?driverId=${encodeURIComponent(
+        selectedDriver
+      )}&bookingId=${encodeURIComponent(bookingId)}`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+    if (request.ok) {
+      const response = await request.text();
+      setMessage(response);
+    } else {
+      setMessage("Error in response!");
+    }
   };
 
   return (
@@ -45,16 +130,18 @@ export default function BookingAssignment() {
               <label>Booking ID:</label>
               <input
                 type="text"
+                value={bookingId}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
             <div className="ml-8 mt-5">
               <label>Booking Date:</label>
               <input
                 type="text"
+                value={bookingDate}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
           </div>
@@ -64,16 +151,18 @@ export default function BookingAssignment() {
               <label>Booking Type:</label>
               <input
                 type="text"
+                value={bookingType}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
             <div className="ml-[47px] mt-5">
               <label>Pick Up On:</label>
               <input
                 type="text"
+                value={pickupLocation}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
           </div>
@@ -83,16 +172,18 @@ export default function BookingAssignment() {
               <label>Destination:</label>
               <input
                 type="text"
+                value={destination}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
             <div className="ml-[75px] mt-5">
               <label>Vehicle:</label>
               <input
                 type="text"
+                value={vehicleNumber}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
           </div>
@@ -102,16 +193,18 @@ export default function BookingAssignment() {
               <label>Driver:</label>
               <input
                 type="text"
+                value={firstName}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
             <div className="ml-[86px] mt-5">
               <label>Client:</label>
               <input
                 type="text"
+                value={first_Name + " " + last_name}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
           </div>
@@ -121,8 +214,9 @@ export default function BookingAssignment() {
               <label>Contact:</label>
               <input
                 type="text"
+                value={contact}
                 readOnly
-                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-300"
+                className="outline-blue-200 border border-blue-200 ml-2 w-[300px] px-2 text-blue-500"
               />
             </div>
           </div>
@@ -158,11 +252,22 @@ export default function BookingAssignment() {
           <div className="bg-white shadow-md h-[80px] mt-3 flex flex-row">
             <div className="ml-4 py-6">
               <label>Assign Driver:</label>
-              <select className="w-[250px] h-[25px] border outline-blue-200 ml-4"></select>
+              <select
+                onChange={(e) => setSecelctedDriver(e.target.value)}
+                className="w-[250px] h-[25px] border outline-blue-200 ml-4">
+                <option>- Select a Driver -</option>
+                {driverList.map((data) => (
+                  <option key={data.driverId} value={data.driverId}>
+                    {data.firstName + " " + data.lastName}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="ml-4 py-6">
-              <button className="border ml-2 w-[110px] h-[28px] shadow-lg border-blue-400 hover:bg-blue-500 hover:text-white hover:border-none rounded-md">
+              <button
+                onClick={handleAssignedDriver}
+                className="border ml-2 w-[110px] h-[28px] shadow-lg border-blue-400 hover:bg-blue-500 hover:text-white hover:border-none rounded-md">
                 Assign
               </button>
             </div>
@@ -173,14 +278,33 @@ export default function BookingAssignment() {
           <div className="bg-white shadow-md h-[80px] mt-3 flex flex-row">
             <div className="ml-4 py-6">
               <label>Assign Vehicle:</label>
-              <select className="w-[250px] h-[25px] border outline-blue-200 ml-4"></select>
+              <select 
+              onChange={(e)=>setSecelctedVehicle(e.target.value)}
+              className="w-[250px] h-[25px] border outline-blue-200 ml-4">
+                <option>- Select a Vehicle -</option>
+                {vehicleList.map((Element) => (
+                  <option
+                    key={Element.vehicleId}
+                    value={Element.vehicleId}>
+                    {Element.vehicleNumber}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="ml-4 py-6">
-              <button className="border ml-2 w-[110px] h-[28px] shadow-lg border-blue-400 hover:bg-blue-500 hover:text-white hover:border-none rounded-md">
+              <button 
+              onClick={handleAssignedVehicle}
+              className="border ml-2 w-[110px] h-[28px] shadow-lg border-blue-400 hover:bg-blue-500 hover:text-white hover:border-none rounded-md">
                 Assign
               </button>
             </div>
+          </div>
+        )}
+
+        {message && (
+          <div className="w-full bg-green-100">
+            <label className="text-red-500 ml-2">{message}</label>
           </div>
         )}
       </div>
