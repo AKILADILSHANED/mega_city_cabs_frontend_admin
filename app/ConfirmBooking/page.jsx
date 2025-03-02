@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-
 export default function ConfirmBooking() {
   const [bookingObj, setBookingObj] = useState([]);
   const [bookingTable, setBookingTable] = useState(false);
@@ -25,6 +24,30 @@ export default function ConfirmBooking() {
       } else {
       }
     } catch (error) {}
+  };
+
+  const handleApprove = async (buttonKey) => {
+    try {
+      const request = await fetch(
+        `http://localhost:8080/api/v1/booking/check-approval?bookingId=${encodeURIComponent(
+          buttonKey
+        )}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      const response = await request.text();
+      alert(response);
+      setBookingTable(false);
+      setBookingTable(true);
+    } catch (error) {
+      alert("An error occurred while receiving the response!");
+    }
+  };
+
+  const handleReject = (buttonKey) => {
+    alert("Clicked" + buttonKey);
   };
 
   return (
@@ -99,21 +122,82 @@ export default function ConfirmBooking() {
                         Contact
                       </p>
                     </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                      <p className="block text-sm font-normal leading-none text-slate-500">
+                        Aprove
+                      </p>
+                    </th>
+                    <th className="p-4 border-b border-slate-300 bg-slate-50">
+                      <p className="block text-sm font-normal leading-none text-slate-500">
+                        Reject
+                      </p>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {bookingObj.map((object) => (
-                    <tr key={object.bookingId} className="hover:bg-slate-50 hover:text-red-600" >
-                      <td className="p-4 border-b border-slate-200 hover:underline hover:text-blue-800 text-blue-500"><Link href={{pathname:"/BookingAssignment", query:{bookingId:object.bookingId} }}>{object.bookingId}</Link></td>
-                      <td className="p-4 border-b border-slate-200">{object.bookingDate}</td>
-                      <td className="p-4 border-b border-slate-200">{object.bookingType}</td>
-                      <td className="p-4 border-b border-slate-200">{object.pickupLocation}</td>
-                      <td className="p-4 border-b border-slate-200">{object.destination}</td>
-                      <td className="p-4 border-b border-slate-200">{object.vehicleNumber}</td>
-                      <td className="p-4 border-b border-slate-200">{object.firstName}</td>
-                      <td className="p-4 border-b border-slate-200">{object.first_name}</td>
-                      <td className="p-4 border-b border-slate-200">{object.last_name}</td>
-                      <td className="p-4 border-b border-slate-200">{object.contact}</td>
+                    <tr key={object.bookingId} className="hover:bg-slate-50">
+                      <td className="p-4 border-b border-slate-200 hover:underline hover:text-blue-800 text-blue-500">
+                        <Link
+                          href={{
+                            pathname: "/BookingAssignment",
+                            query: {
+                              bookingId: object.bookingId,
+                              bookingDate: object.bookingDate,
+                              bookingType: object.bookingType,
+                              pickupLocation: object.pickupLocation,
+                              destination: object.destination,
+                              vehicleNumber: object.vehicleNumber,
+                              firstName: object.firstName,
+                              first_name: object.first_name,
+                              last_name: object.last_name,
+                              contact: object.contact,
+                            },
+                          }}>
+                          {object.bookingId}
+                        </Link>
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.bookingDate}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.bookingType}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.pickupLocation}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.destination}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.vehicleNumber}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.firstName}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.first_name}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.last_name}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        {object.contact}
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        <button
+                          onClick={() => handleApprove(object.bookingId)}
+                          className="border text-green-500 border-green-500 w-[80px] h-[30px] rounded-md shadow-md hover:border-none hover:bg-green-500 hover:text-white">
+                          Approve
+                        </button>
+                      </td>
+                      <td className="p-4 border-b border-slate-200">
+                        <button
+                          onClick={() => handleReject(object.bookingId)}
+                          className="border text-red-500 border-red-500 w-[80px] h-[30px] rounded-md shadow-md hover:border-none hover:bg-red-500 hover:text-white">
+                          Reject
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
