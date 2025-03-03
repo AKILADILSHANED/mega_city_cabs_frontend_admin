@@ -1,10 +1,12 @@
-"use client"
+"use client";
 import AdminLogin from "./AdminLogin/page";
 
 export default function Home() {
   return (
-    <div>
-      <AdminLogin/>
-    </div>
+    <React.StrictMode>
+      <div>
+        <AdminLogin/>
+      </div>
+    </React.StrictMode>
   );
 }
