@@ -34,6 +34,8 @@ export default function AdminDashBoard() {
     useState(false);
   const [subButtonStateConfirmBooking, setButtonStateConfirmBooking] =
     useState(false);
+  const [subButtonStateNewReceipt, setButtonStateNewReceipt] =
+    useState(false);
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
@@ -46,6 +48,7 @@ export default function AdminDashBoard() {
     setButtonStateDriverDelete,
     setButtonStateConfirmRequest,
     setButtonStateConfirmBooking,
+    setButtonStateNewReceipt,
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -272,7 +275,9 @@ export default function AdminDashBoard() {
               <label className="ml-2">Receipts</label>
             </div>
             {buttonStateReceipt && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div 
+              onClick={()=>handleSubButtonClick(setButtonStateNewReceipt, "/ReceiptIssue")}
+              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Issue new receipt</label>
               </div>
             )}
