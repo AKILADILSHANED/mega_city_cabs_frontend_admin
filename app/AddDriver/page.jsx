@@ -8,29 +8,47 @@ export default function DriverAdd() {
   const [contactError, setContactError] = useState("");
   const [nicError, setNicError] = useState("");
   const [responseStatus, setResponseStatus] = useState("");
-  const [isDisabled, setDisable] = useState(false);
-  
+
   const [fName, setFname] = useState("");
   const [lName, setLname] = useState("");
   const [contact, setContact] = useState("");
   const [nic, setNic] = useState("");
 
+  const textArray = [
+    {
+      textState: fName,
+      setState: setFname,
+      errorState: fNameError,
+      setError: setFnameError,
+    },
+    {
+      textState: lName,
+      setState: setLname,
+      errorState: lNameError,
+      setError: setLnameError,
+    },
+    {
+      textState: contact,
+      setState: setContact,
+      errorState: contactError,
+      setError: setContactError,
+    },
+    {
+      textState: nic,
+      setState: setNic,
+      errorState: nicError,
+      setError: setNicError,
+    },
+  ];
+
   //Handling functions..
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault();    
+    e.preventDefault();
+    let hasError = false;
 
-    const errorStates = [
-      { textStatus: fName, errorStatus: fNameError, setError: setFnameError },
-      { textStatus: lName, errorStatus: lNameError, setError: setLnameError },
-      { textStatus: contact, errorStatus: contactError, setError: setContactError},
-      { textStatus: nic, errorStatus: nicError, setError: setNicError },
-    ];
-
-    let hasError = false
-
-    errorStates.forEach((element) => {
-      if (element.textStatus == "") {
+    textArray.forEach((element) => {
+      if (element.textState === "") {
         element.setError("This field is required!");
         hasError = true;
       } else {
@@ -38,14 +56,15 @@ export default function DriverAdd() {
       }
     });
 
-    if (hasError == false) {
-      //Create API request to the backend if there are no any errors..
-      setDisable(true);
+    if (hasError == true) {
+      return;
+    } else {
       try {
         const request = await fetch(
           "http://localhost:8080/api/v1/driver/driver-register",
           {
             method: "POST",
+            credentials: "include",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               firstName: fName,
@@ -55,7 +74,6 @@ export default function DriverAdd() {
             }),
           }
         );
-
         if (request.ok) {
           const response = await request.text();
           setResponseStatus(response);
@@ -63,12 +81,8 @@ export default function DriverAdd() {
           setResponseStatus("Error in response. Please contact administrator!");
         }
       } catch (error) {
-        setResponseStatus(error);
-      }finally{
-        setDisable(false)
+        setResponseStatus("An error occuured.");
       }
-    } else {
-      
     }
   };
 
@@ -157,12 +171,11 @@ export default function DriverAdd() {
           </div>
 
           <div>
-            <input
-              className=" ml-[138] h-[30px] w-[80px] bg-green-600 text-white font-serif rounded-md shadow-md hover:bg-green-500"
-              type="submit"
-              value="Register"
-              disabled = {isDisabled}
-            />
+            <button
+              className=" ml-[138px] h-[30px] w-[80px] bg-green-600 text-white font-serif rounded-md shadow-md hover:bg-green-500"
+              type="submit">
+              Register
+            </button>
           </div>
 
           <div>
