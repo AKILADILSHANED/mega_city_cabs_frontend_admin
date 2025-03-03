@@ -46,8 +46,24 @@ export default function ConfirmBooking() {
     }
   };
 
-  const handleReject = (buttonKey) => {
-    alert("Clicked" + buttonKey);
+  const handleReject = async (buttonKey) => {
+    try {
+      const request = await fetch(
+        `http://localhost:8080/api/v1/booking/check-approval?bookingId=${encodeURIComponent(
+          buttonKey
+        )}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      const response = await request.text();
+      alert(response);
+      setBookingTable(false);
+      setBookingTable(true);
+    } catch (error) {
+      alert("An error occurred while receiving the response!");
+    }
   };
 
   return (
