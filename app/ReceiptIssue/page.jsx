@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 
 export default function ReceiptIssue() {
@@ -7,11 +8,25 @@ export default function ReceiptIssue() {
   const [responseState, setResponseState] = useState({});
   const [bookingDetailsWindow, setBookingDetailsWindow] = useState(false);
   const [receiptDetailsWindow, setReceiptDetailsWindow] = useState(false);
-  const [issueReceipt, setIssueReceipt] = useState(false);
+  const [textCustomerId, setTextCustomerId] = useState("");
+  const [textBookinID, setTextBookinId] = useState("");
+  const [receiptIssueConfirmMessage, setReceiptIssueConfirmMessage] =
+    useState(false);
+
+  //States for receipt details entry.
+
+  const [receiptEntryPaymentType, setReceiptEntryPaymentType] = useState("");
+  const [receiptEntryTaxRate, setReceiptEntryTaxRate] = useState("");
+  const [receiptEntryFare, setReceiptEntryFare] = useState("");
 
   const handleSubmit = async () => {
     setBookingDetailsWindow(false);
     setReceiptDetailsWindow(false);
+    setReceiptEntryPaymentType("");
+    setReceiptEntryTaxRate("");
+    setReceiptEntryFare("");
+    setReceiptIssueConfirmMessage(false);
+
     if (textBookingId == "") {
       setBookingIdError("Booking ID is required!");
     } else {
@@ -51,6 +66,44 @@ export default function ReceiptIssue() {
 
   const handleReceiptIssue = () => {
     setReceiptDetailsWindow(true);
+    setTextCustomerId(responseState.customerId);
+    setTextBookinId(responseState.bookingId);
+  };
+
+  const handleCancel = () => {
+    setReceiptDetailsWindow(false);
+  };
+
+  const handleSubmitReceipt = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const request = await fetch(
+        "http://localhost:8080/api/v1/receipts/new-receipt",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            paymentType: receiptEntryPaymentType,
+            taxRate: receiptEntryTaxRate,
+            fare: receiptEntryFare,
+            customerId: responseState.customerId,
+            bookingId: responseState.bookingId,
+          }),
+        }
+      );
+      if (request.ok) {
+        const response = await request.text();
+        setReceiptIssueConfirmMessage(response);
+      } else {
+        throw new Error(
+          "No response from the server. Please contact administrator!"
+        );
+      }
+    } catch (error) {
+      setReceiptIssueConfirmMessage(error.message);
+    }
   };
 
   return (
@@ -64,7 +117,10 @@ export default function ReceiptIssue() {
         <div className="flex flex-row items-center bg-white shadow-md h-[60px]">
           <label className="ml-6">Booking ID: </label>
           <input
-            onChange={(e) => setTextBookingId(e.target.value)}
+            value={textBookingId}
+            onChange={(e) =>
+              setTextBookingId(e.target.value.toLocaleUpperCase())
+            }
             className="ml-2 px-2 border shadow-lg border-blue-200 rounded-sm outline-blue-400"
             placeholder="Enter Booking ID"
           />
@@ -143,78 +199,104 @@ export default function ReceiptIssue() {
         )}
 
         {receiptDetailsWindow && (
-          <div className="mt-4">
-            <div className="flex justify-center bg-blue-300 text-white hover:bg-blue-200 h-[30px]">
-              <label>Enter Receipt Details</label>
+          <form onSubmit={handleSubmitReceipt}>
+            <div className="mt-4">
+              <div className="flex justify-center bg-blue-300 text-white hover:bg-blue-200 h-[30px]">
+                <label>Enter Receipt Details</label>
+              </div>
+              <div className="bg-white h-[200px] shadow-lg ">
+                <div className="flex flex-row ml-4 mt-4">
+                  <div className="ml-[18px] mt-4">
+                    <label>Payment Type: </label>
+                    <select
+                      onChange={(e) =>
+                        setReceiptEntryPaymentType(e.target.value)
+                      }
+                      className="border border-blue-300 outline-blue-200 w-[214px] h-[28px]">
+                      <option key={"selsection"}>
+                        - Select Payment Type -
+                      </option>
+                      <option key={"cash"}>Cash</option>
+                      <option key={"bank"}>Bank Payment</option>
+                      <option key={"cheque"}>Cheque</option>
+                      <option key={"online"}>Online</option>
+                    </select>
+                  </div>
+
+                  <div className="ml-[40px] mt-4">
+                    <label>Tax Rate (%): </label>
+                    <input
+                      onChange={(e) => setReceiptEntryTaxRate(e.target.value)}
+                      required
+                      placeholder="Enter Tax Rate"
+                      type="text"
+                      className="border border-blue-300 outline-blue-300 px-2"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-row ml-4 mt-4">
+                  <div className="ml-[87px]">
+                    <label>Fare: </label>
+                    <input
+                      onChange={(e) => setReceiptEntryFare(e.target.value)}
+                      required
+                      placeholder="Enter Fare"
+                      type="text"
+                      className="border border-blue-300 outline-blue-300 px-2"
+                    />
+                  </div>
+
+                  <div className="ml-11">
+                    <label>Customer ID: </label>
+                    <input
+                      required
+                      readOnly
+                      value={textCustomerId.toUpperCase().trim()}
+                      type="text"
+                      className="border border-blue-300 outline-blue-300 px-2"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-row ml-4 mt-4">
+                  <div className="ml-[43px]">
+                    <label>Booking ID: </label>
+                    <input
+                      required
+                      readOnly
+                      value={textBookinID.toUpperCase().trim()}
+                      type="text"
+                      className="border border-blue-300 outline-blue-300 px-2"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-row ml-4 mt-4">
+                  <div className="ml-[130px]">
+                    <button
+                      type="Submit"
+                      className="border w-[100px] bg-green-700 text-white hover:bg-green-600 shadow-lg">
+                      Submit
+                    </button>
+                  </div>
+                  <div className="ml-2">
+                    <button
+                      onClick={handleCancel}
+                      type="Submit"
+                      className="border w-[100px] bg-red-700 text-white hover:bg-red-600 shadow-lg">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+                {receiptIssueConfirmMessage && (
+                  <div className="text-red-500 ml-[145px] font-serif">
+                    {receiptIssueConfirmMessage}
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="bg-white h-[200px] shadow-lg ">
-              <div className="flex flex-row ml-4 mt-4">
-                <div className="ml-[18px] mt-4">
-                  <label>Payment Type: </label>
-                  <select className="border border-blue-300 outline-blue-200 w-[214px] h-[28px]">
-                    <option key={"selsection"}>- Select Payment Type -</option>
-                    <option key={"cash"}>Cash</option>
-                    <option key={"bank"}>Bank Payment</option>
-                    <option key={"cheque"}>Cheque</option>
-                    <option key={"online"}>Online</option>
-                  </select>
-                </div>
-
-                <div className="ml-[40px] mt-4">
-                  <label>Tax Rate: </label>
-                  <input
-                  placeholder="Enter Tax Rate"
-                    type="text"
-                    className="border border-blue-300 outline-blue-300 px-2"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-row ml-4 mt-4">
-                <div className="ml-[87px]">
-                  <label>Fare: </label>
-                  <input
-                  placeholder="Enter Fare"
-                    type="text"
-                    className="border border-blue-300 outline-blue-300 px-2"
-                  />
-                </div>
-
-                <div className="ml-4">
-                  <label>Customer ID: </label>
-                  <input
-                  readOnly
-                    type="text"
-                    className="border border-blue-300 outline-blue-300 px-2"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-row ml-4 mt-4">
-                <div className="ml-[43px]">
-                  <label>Booking ID: </label>
-                  <input
-                  readOnly
-                    type="text"
-                    className="border border-blue-300 outline-blue-300 px-2"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-row ml-4 mt-4">
-                <div className="ml-[130px]">
-                  <button type="Submit" className="border w-[100px] bg-green-700 text-white hover:bg-green-600 shadow-lg">
-                    Submit
-                  </button>
-                </div>
-                <div className="ml-2">
-                  <button type="Submit" className="border w-[100px] bg-red-700 text-white hover:bg-red-600 shadow-lg">
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          </form>
         )}
       </div>
     </div>
