@@ -288,6 +288,13 @@ export default function ReceiptIssue() {
                       Cancel
                     </button>
                   </div>
+                  <div className="ml-2">
+                    <button                      
+                      type="Submit"
+                      className="border w-[120px] bg-blue-700 text-white hover:bg-blue-600 shadow-lg">
+                      Print Receipt
+                    </button>
+                  </div>
                 </div>
                 {receiptIssueConfirmMessage && (
                   <div className="text-red-500 ml-[145px] font-serif">
