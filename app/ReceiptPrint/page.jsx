@@ -1,57 +1,53 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export default function ReceiptPrintingpage() {
-    const searchParams = useSearchParams();
-    const receiptNumber = searchParams.get("receiptNumber");
-    const vat = searchParams.get("vat");
+  const searchParams = useSearchParams();
+  const receiptNumber = searchParams.get("receiptNumber");
+  const vat = searchParams.get("vat");
 
-    const [recceiptNumber, setReceiptNumber] = useState("");
-    const [customerId, setCustomerId] = useState("");
-    const [bookingId, setBookingId] = useState("");
-    const [adminId, setAdminId] = useState("");
-    const [paymentType, setPaymentType] = useState("");
-    const [receiptDate, setReceiptDate] = useState("");
-    const [pickup, setPickup] = useState();
-    const [destination, setDestination] = useState("");
-    const [fare, setFare] = useState("");
-    const [vatAmount, setVatAmount] = useState("");
-    const [serviceCharge, setServiceCharge] = useState("");
-    const [totalDue, setTotalDue] = useState("");
+  const [recceiptNumber, setReceiptNumber] = useState("");
+  const [customerId, setCustomerId] = useState("");
+  const [bookingId, setBookingId] = useState("");
+  const [adminId, setAdminId] = useState("");
+  const [paymentType, setPaymentType] = useState("");
+  const [receiptDate, setReceiptDate] = useState("");
+  const [pickup, setPickup] = useState();
+  const [destination, setDestination] = useState("");
+  const [fare, setFare] = useState("");
+  const [vatAmount, setVatAmount] = useState("");
+  const [serviceCharge, setServiceCharge] = useState("");
+  const [totalDue, setTotalDue] = useState("");
 
-    
-    useEffect(
-        ()=>{
-            const getreceiptData = async ()=>{
-                const request = await fetch(
-                    `http://localhost:8080/api/v1/receipts/receipt-print?receiptNumber=${encodeURIComponent(receiptNumber)}&vat=${encodeURIComponent(vat)}`,
-                    {
-                        method:"GET",
-                        credentials:"include"
-                    }
-                );
-                const responseData = await request.json();
-                setReceiptNumber(responseData.receiptNumber);
-                setCustomerId(responseData.customerId);
-                setBookingId(responseData.bookingId);
-                setAdminId(responseData.adminId);
-                setPaymentType(responseData.paymentType);
-                setReceiptDate(responseData.receiptDate);
-                setPickup(responseData.pickupLocation);
-                setDestination(responseData.destination);
-                setVatAmount(responseData.vatAmount);
-                setFare(responseData.fare);
-                setServiceCharge(responseData.serviceCharge);
-                setTotalDue(responseData.totalDue);
-            };
-            getreceiptData();
-        },
-        []
-    );
-
-
+  useEffect(() => {
+    const getreceiptData = async () => {
+      const request = await fetch(
+        `http://localhost:8080/api/v1/receipts/receipt-reprint?receiptNumber=${encodeURIComponent(
+          receiptNumber
+        )}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      const responseData = await request.json();
+      setReceiptNumber(responseData.receiptNumber);
+      setCustomerId(responseData.customerId);
+      setBookingId(responseData.bookingId);
+      setAdminId(responseData.adminId);
+      setPaymentType(responseData.paymentType);
+      setReceiptDate(responseData.receiptDate);
+      setPickup(responseData.pickupLocation);
+      setDestination(responseData.destination);
+      setVatAmount(responseData.vatAmount);
+      setFare(responseData.fare);
+      setServiceCharge(responseData.serviceCharge);
+      setTotalDue(responseData.totalDue);
+    };
+    getreceiptData();
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -71,15 +67,15 @@ export default function ReceiptPrintingpage() {
                   <label className="text-sm text-slate-400 ml-2">
                     Receipt No:
                   </label>
-                  <div className="text-sm text-slate-400 ml-2">{recceiptNumber}</div>
+                  <div className="text-sm text-slate-400 ml-2">
+                    {recceiptNumber}
+                  </div>
                 </div>
                 <div className="flex flex-row">
                   <label className="text-sm text-slate-400 ml-2">
                     Branch ID:
                   </label>
-                  <div className="text-sm text-slate-400 ml-[15px]">
-                    010
-                  </div>
+                  <div className="text-sm text-slate-400 ml-[15px]">010</div>
                 </div>
                 <div className="flex flex-row">
                   <label className="text-sm text-slate-400 ml-2">Admin:</label>
@@ -100,7 +96,9 @@ export default function ReceiptPrintingpage() {
                   <label className="text-sm text-slate-400 ml-2">
                     Customer ID:
                   </label>
-                  <div className="text-sm text-slate-400 ml-2">{customerId}</div>
+                  <div className="text-sm text-slate-400 ml-2">
+                    {customerId}
+                  </div>
                 </div>
                 <div className="flex flex-row">
                   <label className="text-sm text-slate-400 ml-2">
@@ -122,14 +120,16 @@ export default function ReceiptPrintingpage() {
                   <label className="text-sm text-slate-400 ml-2">
                     Receipt Date:
                   </label>
-                  <div className="text-sm text-slate-400 ml-[33px]">{receiptDate}</div>
+                  <div className="text-sm text-slate-400 ml-[33px]">
+                    {receiptDate}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="text-sm text-slate-400">
-            From  {pickup} TO {destination}
+            From {pickup} To {destination}
           </div>
 
           <div className="flex flex-row">
@@ -148,7 +148,9 @@ export default function ReceiptPrintingpage() {
                   </td>
                 </tr>
                 <tr className="border">
-                  <td className="border text-sm text-slate-500">VAT Amount ({vat}%)</td>
+                  <td className="border text-sm text-slate-500">
+                    VAT Amount ({vat}%)
+                  </td>
                   <td className="border w-[200px] text-sm text-slate-500">
                     {vatAmount}
                   </td>
@@ -194,7 +196,11 @@ export default function ReceiptPrintingpage() {
           </div>
         </div>
       </div>
-      <button onClick={()=>window.print()} className="border w-[80px] bg-blue-600 mt-2 hover:bg-blue-500 hover:border-none text-white font-serif">Print</button>
+      <button
+        onClick={() => window.print()}
+        className="border w-[80px] bg-blue-600 mt-2 hover:bg-blue-500 hover:border-none text-white font-serif">
+        Print
+      </button>
     </div>
   );
 }
