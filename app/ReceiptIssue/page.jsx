@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ReceiptIssue() {
+  const router = useRouter();
   const [textBookingId, setTextBookingId] = useState("");
   const [bookingIdError, setBookingIdError] = useState(false);
   const [responseState, setResponseState] = useState({});
@@ -12,7 +14,9 @@ export default function ReceiptIssue() {
   const [textBookinID, setTextBookinId] = useState("");
   const [receiptIssueConfirmMessage, setReceiptIssueConfirmMessage] =
     useState(false);
-
+  const [printReceiptButton, setPrintReceiptButton] = useState(false);
+  const [receiptNumberstatus, setReceiptNumberStatuts] = useState("");
+  
   //States for receipt details entry.
 
   const [receiptEntryPaymentType, setReceiptEntryPaymentType] = useState("");
@@ -76,7 +80,7 @@ export default function ReceiptIssue() {
 
   const handleSubmitReceipt = async (e) => {
     e.preventDefault();
-    
+
     try {
       const request = await fetch(
         "http://localhost:8080/api/v1/receipts/new-receipt",
@@ -94,8 +98,21 @@ export default function ReceiptIssue() {
         }
       );
       if (request.ok) {
-        const response = await request.text();
-        setReceiptIssueConfirmMessage(response);
+        const response = await request.json();
+        if (response.receiptMessageCode == "0") {
+          setReceiptIssueConfirmMessage(
+            "Receipt issued successfully with Receipt Number: " +
+              response.receiptNumber
+          );
+          setReceiptNumberStatuts(response.receiptNumber);          
+          setPrintReceiptButton(true);
+        } else if (response.receiptMessageCode == "1") {
+          setReceiptIssueConfirmMessage("Customer not found!");
+          setPrintReceiptButton(false);
+        } else {
+          setReceiptIssueConfirmMessage("Booking not found!");
+          setPrintReceiptButton(false);
+        }
       } else {
         throw new Error(
           "No response from the server. Please contact administrator!"
@@ -104,6 +121,12 @@ export default function ReceiptIssue() {
     } catch (error) {
       setReceiptIssueConfirmMessage(error.message);
     }
+  };
+
+  const handlePrintReceipt = () => {
+    router.push(
+      `/ReceiptPrint?receiptNumber=${encodeURIComponent(receiptNumberstatus)}&vat=${encodeURIComponent(receiptEntryTaxRate)}`
+    );
   };
 
   return (
@@ -283,18 +306,21 @@ export default function ReceiptIssue() {
                   <div className="ml-2">
                     <button
                       onClick={handleCancel}
-                      type="Submit"
+                      type="button"
                       className="border w-[100px] bg-red-700 text-white hover:bg-red-600 shadow-lg">
                       Cancel
                     </button>
                   </div>
-                  <div className="ml-2">
-                    <button                      
-                      type="Submit"
-                      className="border w-[120px] bg-blue-700 text-white hover:bg-blue-600 shadow-lg">
-                      Print Receipt
-                    </button>
-                  </div>
+                  {printReceiptButton && (
+                    <div className="ml-2">
+                      <button
+                        onClick={handlePrintReceipt}
+                        type="button"
+                        className="border w-[120px] bg-blue-700 text-white hover:bg-blue-600 shadow-lg">
+                        Print Receipt
+                      </button>
+                    </div>
+                  )}
                 </div>
                 {receiptIssueConfirmMessage && (
                   <div className="text-red-500 ml-[145px] font-serif">
