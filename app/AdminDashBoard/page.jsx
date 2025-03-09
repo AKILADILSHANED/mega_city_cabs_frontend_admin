@@ -39,6 +39,8 @@ export default function AdminDashBoard() {
     useState(false);
   const [subButtonStateReceiptDelete, setButtonStateReceiptDelete] =
     useState(false);
+  const [subButtonGenerateReports, setSubButtonGenerateReports] =
+    useState(false);
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
@@ -53,7 +55,8 @@ export default function AdminDashBoard() {
     setButtonStateConfirmBooking,
     setButtonStateNewReceipt,
     setButtonStateReceiptInquiry,
-    setButtonStateReceiptDelete
+    setButtonStateReceiptDelete,
+    setSubButtonGenerateReports
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -297,9 +300,14 @@ export default function AdminDashBoard() {
               </div>
             )}
             {buttonStateReceipt && (
-              <div 
-              onClick={()=>{handleSubButtonClick(setButtonStateReceiptDelete, "/DeleteReceipt")}}
-              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div
+                onClick={() => {
+                  handleSubButtonClick(
+                    setButtonStateReceiptDelete,
+                    "/DeleteReceipt"
+                  );
+                }}
+                className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Delete Receipt</label>
               </div>
             )}
@@ -318,8 +326,11 @@ export default function AdminDashBoard() {
           </div>
 
           <div>
-            <div className=" border h-[35px] w-[260px] flex items-center justify-start hover:bg-blue-500 hover:text-white">
-              <label className="ml-2">Report Generator</label>
+            <div 
+            onClick={()=>{handleSubButtonClick(setSubButtonGenerateReports, "/GenerateReports")}}
+            className=" border h-[35px] w-[260px] flex items-center justify-start hover:bg-blue-500 hover:text-white">
+              <label              
+               className="ml-2">Report Generator</label>
             </div>
           </div>
 

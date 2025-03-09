@@ -71,7 +71,9 @@ export default function page() {
               className="mt-2 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2 h-[25px]"
               type="text"
               placeholder="Please provide Driver ID"
-              onChange={(e)=>{setDriverId(e.target.value)}}
+              onChange={(e) => {
+                setDriverId(e.target.value);
+              }}
             />
             <input
               className="mt-1 ml-4 h-[30px] w-[80px] bg-green-600 text-white font-serif rounded-md shadow-md hover:bg-green-500"
@@ -92,115 +94,114 @@ export default function page() {
       </div>
 
       <div>
-        {
-            driverDetailsWindow &&
-<form>
-          <div>
-            <div className="flex-col items-center justify-center mt-5">
-              <div className=" bg-blue-50 text-white min-w-screen h-[35px] flex items-center justify-center shadow-md">
-                <label className="text-blue-800 text-xl font-serif">
-                  Driver Details for provided Driver ID
-                </label>
-              </div>
-            </div>
-
-            <div className="mt-6 bg-white h-[150px] shadow-md hover:shadow-lg">
-              <div className="flex flex-row">
-                <div className="flex flex-row ml-[43px]">
-                  <div>
-                    <label className="ml-4 text-blue-500">Driver ID:</label>
-                  </div>
-                  <div>
-                    <input
-                      className="text-md text-slate-600 w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
-                      type="text"
-                      readOnly
-                      onChange={(e) => driverId(e.target.value)}
-                      value={driverIdText}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-row ml-[50px]">
-                  <div>
-                    <label className="ml-4 text-blue-500">First Name:</label>
-                  </div>
-                  <div>
-                    <input
-                      className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
-                      type="text"
-                      readOnly
-                      value={firstNameText}
-                    />
-                  </div>
+        {driverDetailsWindow && (
+          <form>
+            <div>
+              <div className="flex-col items-center justify-center mt-5">
+                <div className=" bg-blue-50 text-white min-w-screen h-[35px] flex items-center justify-center shadow-md">
+                  <label className="text-blue-800 text-xl font-serif">
+                    Driver Details for provided Driver ID
+                  </label>
                 </div>
               </div>
 
-              <div className="flex flex-row mt-4">
-                <div className="flex flex-row ml-[28px]">
-                  <div>
-                    <label className="ml-4 text-blue-500">Last Name:</label>
-                  </div>
-                  <div>
-                    <input
-                      className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
-                      type="text"
-                      readOnly
-                      value={lastNameText}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-row ml-[75px]">
-                  <div>
-                    <label className="ml-4 text-blue-500">Contact:</label>
-                  </div>
-                  <div>
-                    <input
-                      className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
-                      type="text"
-                      readOnly
-                      value={contactText}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-row mt-4 ml-[78px]">
+              <div className="mt-6 bg-white h-[150px] shadow-md hover:shadow-lg">
                 <div className="flex flex-row">
-                  <div>
-                    <label className="ml-4 text-blue-500">NIC:</label>
+                  <div className="flex flex-row ml-[43px]">
+                    <div>
+                      <label className="ml-4 text-blue-500">Driver ID:</label>
+                    </div>
+                    <div>
+                      <input
+                        className="text-md text-slate-600 w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
+                        type="text"
+                        readOnly
+                        onChange={(e) => driverId(e.target.value)}
+                        value={driverIdText}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <input
-                      className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
-                      type="text"
-                      readOnly
-                      value={nicText}
-                    />
+
+                  <div className="flex flex-row ml-[50px]">
+                    <div>
+                      <label className="ml-4 text-blue-500">First Name:</label>
+                    </div>
+                    <div>
+                      <input
+                        className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
+                        type="text"
+                        readOnly
+                        value={firstNameText}
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex flex-row ml-[15px]">
-                  <div>
-                    <label className="ml-4 text-blue-500">
-                      Registered Date:
-                    </label>
+                <div className="flex flex-row mt-4">
+                  <div className="flex flex-row ml-[28px]">
+                    <div>
+                      <label className="ml-4 text-blue-500">Last Name:</label>
+                    </div>
+                    <div>
+                      <input
+                        className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
+                        type="text"
+                        readOnly
+                        value={lastNameText}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <input
-                      className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
-                      type="text"
-                      readOnly
-                      value={registeredDateText}
-                    />
+
+                  <div className="flex flex-row ml-[75px]">
+                    <div>
+                      <label className="ml-4 text-blue-500">Contact:</label>
+                    </div>
+                    <div>
+                      <input
+                        className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
+                        type="text"
+                        readOnly
+                        value={contactText}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-row mt-4 ml-[78px]">
+                  <div className="flex flex-row">
+                    <div>
+                      <label className="ml-4 text-blue-500">NIC:</label>
+                    </div>
+                    <div>
+                      <input
+                        className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
+                        type="text"
+                        readOnly
+                        value={nicText}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-row ml-[15px]">
+                    <div>
+                      <label className="ml-4 text-blue-500">
+                        Registered Date:
+                      </label>
+                    </div>
+                    <div>
+                      <input
+                        className="text-slate-600 text-md w-[300px] ring-1 ring-blue-500 ml-2 border-none rounded-sm hover:shadow-md px-2"
+                        type="text"
+                        readOnly
+                        value={registeredDateText}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
-        }        
+          </form>
+        )}
       </div>
     </div>
   );
