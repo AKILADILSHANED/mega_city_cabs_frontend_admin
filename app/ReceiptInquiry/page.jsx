@@ -13,7 +13,9 @@ export default function ReceiptInquiry() {
       setErrorMessage("This field is required!");
       return;
     } else {
-        router.push(`/ReceiptPrint?receiptNumber=${encodeURIComponent(textReceiptNumber)}`);
+      router.push(
+        `/ReceiptPrint?receiptNumber=${encodeURIComponent(textReceiptNumber)}`
+      );
     }
   };
 
@@ -34,7 +36,9 @@ export default function ReceiptInquiry() {
             className="border border-blue-300 shadow-md ml-2 outline-blue-300 px-2"
             placeholder="Enter Receipt Number"
           />
-          <button onClick={handleSubmit} className="border ml-2 w-[75px] border-blue-400 bg-blue-400 text-white hover:bg-blue-500">
+          <button
+            onClick={handleSubmit}
+            className="border ml-2 w-[75px] border-blue-400 bg-blue-400 text-white hover:bg-blue-500">
             Submit
           </button>
           {errorMessage && (
