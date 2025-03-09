@@ -34,9 +34,10 @@ export default function AdminDashBoard() {
     useState(false);
   const [subButtonStateConfirmBooking, setButtonStateConfirmBooking] =
     useState(false);
-  const [subButtonStateNewReceipt, setButtonStateNewReceipt] =
-    useState(false);
+  const [subButtonStateNewReceipt, setButtonStateNewReceipt] = useState(false);
   const [subButtonStateReceiptInquiry, setButtonStateReceiptInquiry] =
+    useState(false);
+  const [subButtonStateReceiptDelete, setButtonStateReceiptDelete] =
     useState(false);
 
   const subFunctionList = [
@@ -52,6 +53,7 @@ export default function AdminDashBoard() {
     setButtonStateConfirmBooking,
     setButtonStateNewReceipt,
     setButtonStateReceiptInquiry,
+    setButtonStateReceiptDelete
   ];
 
   const handleSubButtonClick = (setActiveFunction, url) => {
@@ -278,9 +280,14 @@ export default function AdminDashBoard() {
               <label className="ml-2">Receipts</label>
             </div>
             {buttonStateReceipt && (
-              <div 
-              onClick={()=>handleSubButtonClick(setButtonStateNewReceipt, "/ReceiptIssue")}
-              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div
+                onClick={() =>
+                  handleSubButtonClick(
+                    setButtonStateNewReceipt,
+                    "/ReceiptIssue"
+                  )
+                }
+                className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Issue new receipt</label>
               </div>
             )}
@@ -290,14 +297,21 @@ export default function AdminDashBoard() {
               </div>
             )}
             {buttonStateReceipt && (
-              <div className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+              <div 
+              onClick={()=>{handleSubButtonClick(setButtonStateReceiptDelete, "/DeleteReceipt")}}
+              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Delete Receipt</label>
               </div>
             )}
-            {buttonStateReceipt && (              
+            {buttonStateReceipt && (
               <div
-              onClick={()=>handleSubButtonClick(setButtonStateReceiptInquiry, "/ReceiptInquiry")}
-              className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
+                onClick={() =>
+                  handleSubButtonClick(
+                    setButtonStateReceiptInquiry,
+                    "/ReceiptInquiry"
+                  )
+                }
+                className="border h-[30px] w-[260px] flex items-center justify-start hover:bg-blue-200">
                 <label className="ml-10">Receipt Inquiry</label>
               </div>
             )}
