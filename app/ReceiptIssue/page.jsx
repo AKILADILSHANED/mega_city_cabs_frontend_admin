@@ -16,7 +16,7 @@ export default function ReceiptIssue() {
     useState(false);
   const [printReceiptButton, setPrintReceiptButton] = useState(false);
   const [receiptNumberstatus, setReceiptNumberStatuts] = useState("");
-  
+
   //States for receipt details entry.
 
   const [receiptEntryPaymentType, setReceiptEntryPaymentType] = useState("");
@@ -104,7 +104,7 @@ export default function ReceiptIssue() {
             "Receipt issued successfully with Receipt Number: " +
               response.receiptNumber
           );
-          setReceiptNumberStatuts(response.receiptNumber);          
+          setReceiptNumberStatuts(response.receiptNumber);
           setPrintReceiptButton(true);
         } else if (response.receiptMessageCode == "1") {
           setReceiptIssueConfirmMessage("Customer not found!");
@@ -125,7 +125,9 @@ export default function ReceiptIssue() {
 
   const handlePrintReceipt = () => {
     router.push(
-      `/ReceiptPrint?receiptNumber=${encodeURIComponent(receiptNumberstatus)}&vat=${encodeURIComponent(receiptEntryTaxRate)}`
+      `/ReceiptPrint?receiptNumber=${encodeURIComponent(
+        receiptNumberstatus
+      )}&vat=${encodeURIComponent(receiptEntryTaxRate)}`
     );
   };
 
