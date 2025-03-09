@@ -14,7 +14,7 @@ export default function GenerateReports() {
           </div>
 
           <div className='ml-4 hover:underline text-blue-500 hover:text-blue-800'>
-          <a href=''>Booking Details Report</a>
+          <a href='/BookingDetails'>Booking Details Report</a>
           </div>
 
           <div className='ml-4 hover:underline text-blue-500 hover:text-blue-800'>
