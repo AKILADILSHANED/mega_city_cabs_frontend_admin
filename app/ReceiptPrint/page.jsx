@@ -33,18 +33,26 @@ export default function ReceiptPrintingpage() {
         }
       );
       const responseData = await request.json();
-      setReceiptNumber(responseData.receiptNumber);
-      setCustomerId(responseData.customerId);
-      setBookingId(responseData.bookingId);
-      setAdminId(responseData.adminId);
-      setPaymentType(responseData.paymentType);
-      setReceiptDate(responseData.receiptDate);
-      setPickup(responseData.pickupLocation);
-      setDestination(responseData.destination);
-      setVatAmount(responseData.vatAmount);
-      setFare(responseData.fare);
-      setServiceCharge(responseData.serviceCharge);
-      setTotalDue(responseData.totalDue);
+      if(responseData.returnMessage == 1){
+        alert("This receipt already deleted!");
+        return;
+      }else if(responseData.returnMessage == 2){
+        alert("No receipt details found for provided receipt number!");
+      }else{
+        setReceiptNumber(responseData.receiptNumber);
+        setCustomerId(responseData.customerId);
+        setBookingId(responseData.bookingId);
+        setAdminId(responseData.adminId);
+        setPaymentType(responseData.paymentType);
+        setReceiptDate(responseData.receiptDate);
+        setPickup(responseData.pickupLocation);
+        setDestination(responseData.destination);
+        setVatAmount(responseData.vatAmount);
+        setFare(responseData.fare);
+        setServiceCharge(responseData.serviceCharge);
+        setTotalDue(responseData.totalDue);
+      }
+      
     };
     getreceiptData();
   }, []);
