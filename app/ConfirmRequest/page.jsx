@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function ConfirmRequest() {
   const [clickState, setClickState] = useState(false);
-  const [pendingRequests, setRequests] = useState([]);
+  const [pendingRequests, setRequests] = useState([{}]);
 
   const showPendingRequests = async () => {
     
@@ -15,14 +15,15 @@ export default function ConfirmRequest() {
         "http://localhost:8080/api/v1/customer/pending-registrations",
         {
           method: "GET",
+          credentials:"include",
           headers: {
             "Content-Type": "application/json",
-          },
+          }
         }
       );
-      if (request.ok) {
-        setClickState(true);
+      if (request.ok) {        
         const response = await request.json();
+        setClickState(true);
         setRequests(response);
       } else {
         alert("Response is not ok..");
@@ -87,8 +88,8 @@ export default function ConfirmRequest() {
           </label>
         </div>
         <div className="mt-4 border-none shadow-md hover:shadow-lg h-[25px] min-w-screen flex flex-row items-start justify-start">
-          <a
-            onClick={showPendingRequests}
+          <a 
+            onClick={showPendingRequests}         
             className="underline hover:text-blue-500 ml-4 text-blue-500 cursor-pointer">
             Show Pending Requests
           </a>
@@ -115,17 +116,15 @@ export default function ConfirmRequest() {
                     Request Date
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Edit</span>
+                    Approve
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Edit</span>
+                    Reject
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Edit</span>
+                    Show
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Edit</span>
-                  </th>
+                  
                 </tr>
               </thead>
               <tbody>

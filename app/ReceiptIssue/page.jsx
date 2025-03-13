@@ -80,7 +80,7 @@ export default function ReceiptIssue() {
 
   const handleSubmitReceipt = async (e) => {
     e.preventDefault();
-
+    setPrintReceiptButton(false);
     try {
       const request = await fetch(
         "http://localhost:8080/api/v1/receipts/new-receipt",
@@ -99,20 +99,11 @@ export default function ReceiptIssue() {
       );
       if (request.ok) {
         const response = await request.json();
-        if (response.receiptMessageCode == "0") {
-          setReceiptIssueConfirmMessage(
-            "Receipt issued successfully with Receipt Number: " +
-              response.receiptNumber
+        setReceiptIssueConfirmMessage(            
+              response.receiptMessageCode
           );
-          setReceiptNumberStatuts(response.receiptNumber);
-          setPrintReceiptButton(true);
-        } else if (response.receiptMessageCode == "1") {
-          setReceiptIssueConfirmMessage("Customer not found!");
-          setPrintReceiptButton(false);
-        } else {
-          setReceiptIssueConfirmMessage("Booking not found!");
-          setPrintReceiptButton(false);
-        }
+        setReceiptNumberStatuts(response.receiptNumber);
+        setPrintReceiptButton(true);        
       } else {
         throw new Error(
           "No response from the server. Please contact administrator!"
