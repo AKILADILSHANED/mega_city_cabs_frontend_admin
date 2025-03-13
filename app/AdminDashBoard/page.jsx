@@ -10,37 +10,23 @@ export default function AdminDashBoard() {
 
   const [buttonStateRegister, setButtonStateRegister] = useState(false);
   const [buttonStateBooking, setButtonStateBooking] = useState(false);
-  const [buttonStateManageVehicle, setButtonStateManageVehicle] =
-    useState(false);
+  const [buttonStateManageVehicle, setButtonStateManageVehicle] = useState(false);
   const [buttonStateManageDriver, setButtonStateManageDriver] = useState(false);
   const [buttonStateReceipt, setButtonStateReceipts] = useState(false);
-
-  const [subButtonStateVehicleAdd, setSubButtonStateVehicleAdd] =
-    useState(false);
-  const [subButtonStateVehicleDetails, setSubButtonStateVehicleDetails] =
-    useState(false);
-  const [subButtonStateVehicleUpdate, setSubButtonStateVehicleUpdate] =
-    useState(false);
-  const [subButtonStateVehicleDelete, setSubButtonStateVehicleDelete] =
-    useState(false);
+  const [subButtonStateVehicleAdd, setSubButtonStateVehicleAdd] = useState(false);
+  const [subButtonStateVehicleDetails, setSubButtonStateVehicleDetails] = useState(false);
+  const [subButtonStateVehicleUpdate, setSubButtonStateVehicleUpdate] = useState(false);
+  const [subButtonStateVehicleDelete, setSubButtonStateVehicleDelete] = useState(false);
   const [subButtonStateDriverAdd, setButtonStateDriverAdd] = useState(false);
-  const [subButtonStateDriverInquiry, setButtonStateDriverInquiry] =
-    useState(false);
-  const [subButtonStateDriverUpdate, setButtonStateDriverUpdate] =
-    useState(false);
-  const [subButtonStateDriverDelete, setButtonStateDriverDelete] =
-    useState(false);
-  const [subButtonStateConfirmRequest, setButtonStateConfirmRequest] =
-    useState(false);
-  const [subButtonStateConfirmBooking, setButtonStateConfirmBooking] =
-    useState(false);
+  const [subButtonStateDriverInquiry, setButtonStateDriverInquiry] = useState(false);
+  const [subButtonStateDriverUpdate, setButtonStateDriverUpdate] = useState(false);
+  const [subButtonStateDriverDelete, setButtonStateDriverDelete] = useState(false);
+  const [subButtonStateConfirmRequest, setButtonStateConfirmRequest] = useState(false);
+  const [subButtonStateConfirmBooking, setButtonStateConfirmBooking] = useState(false);
   const [subButtonStateNewReceipt, setButtonStateNewReceipt] = useState(false);
-  const [subButtonStateReceiptInquiry, setButtonStateReceiptInquiry] =
-    useState(false);
-  const [subButtonStateReceiptDelete, setButtonStateReceiptDelete] =
-    useState(false);
-  const [subButtonGenerateReports, setSubButtonGenerateReports] =
-    useState(false);
+  const [subButtonStateReceiptInquiry, setButtonStateReceiptInquiry] = useState(false);
+  const [subButtonStateReceiptDelete, setButtonStateReceiptDelete] = useState(false);
+  const [subButtonGenerateReports, setSubButtonGenerateReports] = useState(false);
 
   const subFunctionList = [
     setSubButtonStateVehicleAdd,
